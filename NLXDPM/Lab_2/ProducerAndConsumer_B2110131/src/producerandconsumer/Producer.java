@@ -32,11 +32,11 @@ class Producer extends Thread {
                 queue.notifyAll();
             }
             
-//            try {
-//                Thread.sleep(1000); // Dừng 1 giây sau mỗi lần sản xuất
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(500); // Dừng 0.5 giây sau mỗi lần sản xuất
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
