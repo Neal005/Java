@@ -13,6 +13,11 @@ class Consumer extends Thread {
     public void run() {
         while (true) {
             synchronized (queue) {
+                int product = queue.poll();
+                System.out.println("- Consumed: " + product);
+                System.out.println("\tSo luong hang trong kho: " + queue.size());
+                queue.notifyAll();
+
                 while (queue.isEmpty()) {
                     System.out.println(" ____________________________");
                     System.out.println("|Kho rong, tam ngung tieu thu|");
@@ -23,17 +28,13 @@ class Consumer extends Thread {
                         e.printStackTrace();
                     }
                 }
-                int product = queue.poll();
-                System.out.println("- Consumed: " + product);
-                System.out.println("\tSo luong hang trong kho: " + queue.size());
-                queue.notifyAll();
             }
             
-//            try {
-//                Thread.sleep(2000); // Dừng 2 giây sau mỗi lần tiêu thụ
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(500); // Dừng 0.5 giây sau mỗi lần tiêu thụ
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
