@@ -2,9 +2,10 @@ package Matrix;
 
 import java.util.Scanner;
 
-public class useMatrix
+public class UseMatrix
 {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Scanner scanner = new Scanner(System.in);
         int m,n;
         double[][] a;
@@ -16,5 +17,7 @@ public class useMatrix
         Matrix.giai(m, n, a);
         System.out.println("Ma tran a: ");
         Matrix.xuat(m, n, a);
+        int nghiem=Matrix.nghiem(m, n, a);
+        System.out.printf("Nghiem: %d",nghiem);
     }
 }
