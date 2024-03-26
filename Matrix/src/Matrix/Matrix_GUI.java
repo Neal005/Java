@@ -4,7 +4,19 @@
  */
 package Matrix;
 
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import static java.nio.file.Files.lines;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -23,6 +35,8 @@ public class Matrix_GUI extends javax.swing.JFrame {
     
     public Matrix_GUI() {
         initComponents();
+        
+        setIconImage();
     }
 
     /**
@@ -50,112 +64,103 @@ public class Matrix_GUI extends javax.swing.JFrame {
         bttGiai = new javax.swing.JButton();
         lblKQ = new javax.swing.JLabel();
         lblShowSize = new javax.swing.JLabel();
+        bttFile = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JSeparator();
+        bttXuat = new javax.swing.JButton();
+        lblBG = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblHeader.setText("Giải Hệ Phương Trình Tuyến Tính");
+        lblHeader.setBackground(new java.awt.Color(0, 204, 255));
+        lblHeader.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        lblHeader.setForeground(new java.awt.Color(0, 51, 204));
+        lblHeader.setText("                                Giải Hệ Phương Trình Tuyến Tính");
+        getContentPane().add(lblHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 60));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 676, -1));
 
+        lblNhapSize.setForeground(new java.awt.Color(0, 153, 204));
         lblNhapSize.setText("Nhập m và n:");
+        getContentPane().add(lblNhapSize, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, -1, -1));
 
+        lblM.setForeground(new java.awt.Color(0, 153, 204));
         lblM.setText("m");
+        getContentPane().add(lblM, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, -1, -1));
 
+        txtM.setBackground(new java.awt.Color(255, 255, 204));
+        getContentPane().add(txtM, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 50, 30));
+
+        lblN.setForeground(new java.awt.Color(0, 153, 204));
         lblN.setText("n");
+        getContentPane().add(lblN, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, -1, -1));
 
+        txtN.setBackground(new java.awt.Color(255, 255, 204));
+        getContentPane().add(txtN, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 50, 30));
+
+        bttNhap.setBackground(new java.awt.Color(204, 255, 255));
+        bttNhap.setForeground(new java.awt.Color(0, 153, 204));
         bttNhap.setText("Nhập");
         bttNhap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bttNhapMouseClicked(evt);
             }
         });
+        getContentPane().add(bttNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, -1, -1));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 676, 10));
 
+        lblNhapMT.setForeground(new java.awt.Color(0, 153, 255));
         lblNhapMT.setText("Nhập ma trận:");
+        getContentPane().add(lblNhapMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
 
+        txtArMT.setBackground(new java.awt.Color(255, 255, 204));
         txtArMT.setColumns(20);
         txtArMT.setRows(5);
         jScrollPane1.setViewportView(txtArMT);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 550, 182));
+        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 676, 10));
+
+        bttGiai.setBackground(new java.awt.Color(204, 255, 255));
+        bttGiai.setForeground(new java.awt.Color(0, 153, 204));
         bttGiai.setText("Giải");
         bttGiai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bttGiaiMouseClicked(evt);
             }
         });
+        getContentPane().add(bttGiai, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 108, -1));
+        getContentPane().add(lblKQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 550, 40));
+        getContentPane().add(lblShowSize, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 36, 16));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(302, 302, 302)
-                        .addComponent(lblHeader))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNhapMT)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblShowSize))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNhapSize)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblM)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtM, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(lblN)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtN, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(59, 59, 59)
-                                .addComponent(bttNhap))
-                            .addComponent(jSeparator1)
-                            .addComponent(jSeparator2)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                                .addComponent(bttGiai))
-                            .addComponent(jSeparator3)
-                            .addComponent(lblKQ, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(74, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNhapSize)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblM)
-                        .addComponent(txtM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblN)
-                        .addComponent(txtN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bttNhap)))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNhapMT)
-                    .addComponent(lblShowSize))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(bttGiai)
-                        .addGap(94, 94, 94)))
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblKQ, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
+        bttFile.setBackground(new java.awt.Color(204, 255, 255));
+        bttFile.setForeground(new java.awt.Color(0, 153, 204));
+        bttFile.setText("Load File");
+        bttFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bttFileMouseClicked(evt);
+            }
+        });
+        getContentPane().add(bttFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 70, 210, -1));
 
-        pack();
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 60, 17, 50));
+
+        bttXuat.setBackground(new java.awt.Color(204, 255, 255));
+        bttXuat.setForeground(new java.awt.Color(0, 153, 204));
+        bttXuat.setText("Xuất file (.txt)");
+        bttXuat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bttXuatMouseClicked(evt);
+            }
+        });
+        getContentPane().add(bttXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 400, 109, -1));
+
+        lblBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/src/Matrix_BG.jpg"))); // NOI18N
+        getContentPane().add(lblBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-110, -10, 930, 530));
+
+        setSize(new java.awt.Dimension(817, 534));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bttNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttNhapMouseClicked
@@ -206,7 +211,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
             for (int i = 0; i < n-1; i++) {
             // Tạo text
             String nghiem = String.format("X%d = %.2f\n",i+1,a[i][n-1]);
-            if(i<m-1) nghiem=nghiem+"; ";
+            if(i<m-1) nghiem=nghiem+";     ";
 
             // Nối text mới vào text cũ
             lblKQ.setText(lblKQ.getText() + nghiem);
@@ -216,6 +221,114 @@ public class Matrix_GUI extends javax.swing.JFrame {
         if(Matrix.nghiem(m, n, a)==2) lblKQ.setText("Hệ phương trình có vô số nghiệm!");
         if(Matrix.nghiem(m, n, a)==3) lblKQ.setText("Hệ phương trình vô nghiệm!");
     }//GEN-LAST:event_bttGiaiMouseClicked
+
+    private void bttFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttFileMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("Matrix (.mt)","mt");
+        fileChooser.setFileFilter(fileFilter);
+        fileChooser.setMultiSelectionEnabled(false);
+        
+        int x=fileChooser.showDialog(this,"Chọn File");
+        if(x==JFileChooser.APPROVE_OPTION)
+        {
+            try {
+                File f=fileChooser.getSelectedFile();
+                
+                Scanner scanner = new Scanner(new BufferedReader(new FileReader(f)));
+                
+                // Đọc số hàng và số cột từ dòng đầu tiên
+                m = scanner.nextInt();
+                n = scanner.nextInt();
+                
+                // Bỏ qua dòng xuống tiếp theo
+                scanner.nextLine();
+                
+                //Khởi tạo ma trận
+                a=new double[m][n];
+                
+                // Đọc dữ liệu từ file vào ma trận
+                for (int i=0;i<m;i++) {
+                    for (int j = 0;j<n; j++) {
+                        
+                        a[i][j] = scanner.nextDouble();
+                    }
+                }
+                scanner.close();
+                
+                txtM.setText(""+m);
+                txtN.setText(""+n);
+                lblShowSize.setText(m+" x "+n);
+                txtArMT.setText("");
+                
+                for (int i=0;i<m;i++) {
+                    for (int j=0;j<n;j++)
+                    {
+                        // Tạo text
+                        String nghiem = String.format(Locale.US,"%.2f",a[i][j]);
+                        if(j<n) nghiem=nghiem+" ";
+                        if(j==n-1) nghiem=nghiem+"\n";
+
+                        // Nối text mới vào text cũ
+                        txtArMT.setText(txtArMT.getText() + nghiem);
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Matrix_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_bttFileMouseClicked
+
+    private void bttXuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttXuatMouseClicked
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("Matrix.txt");
+            // Ghi dữ liệu vào file
+            writer.printf("%d %d\n",m,n);
+            
+            writer.printf("\nInit Matrix:\n");
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    writer.printf("%.2f ",Matrix.initMT[i][j]);
+                }
+                writer.printf("\n");
+            }
+            
+            writer.printf("\nLadder Matrix:\n");
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    writer.printf("%.2f ",Matrix.ladderMT[i][j]);
+                }
+                writer.printf("\n");
+            }
+            
+            writer.printf("\nShortened Ladder Matrix:\n");
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    writer.printf("%.2f ",a[i][j]);
+                }
+                writer.printf("\n");
+            }
+            
+            writer.printf("\nSolution:\n");
+            if(Matrix.nghiem(m, n, a)==1)
+            {
+                for(int i=0;i<m;i++) writer.printf("x%d = %.2f\n",i+1,a[i][n-1]);
+            }   if(Matrix.nghiem(m, n, a)==2) writer.printf("Hệ phương trình có vô số nghiệm!");
+            if(Matrix.nghiem(m, n, a)==3) writer.printf("Hệ phương trình vô nghiệm!");
+            // Đóng file
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Matrix_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            writer.close();
+        }
+    }//GEN-LAST:event_bttXuatMouseClicked
 
     /**
      * @param args the command line arguments
@@ -251,14 +364,22 @@ public class Matrix_GUI extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void setIconImage() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bttFile;
     private javax.swing.JButton bttGiai;
     private javax.swing.JButton bttNhap;
+    private javax.swing.JButton bttXuat;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel lblBG;
     private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblKQ;
     private javax.swing.JLabel lblM;

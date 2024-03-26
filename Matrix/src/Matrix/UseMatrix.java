@@ -19,5 +19,6 @@ public class UseMatrix
         Matrix.xuat(m, n, a);
         int nghiem=Matrix.nghiem(m, n, a);
         System.out.printf("Nghiem: %d",nghiem);
+        scanner.close();
     }
 }
