@@ -16,7 +16,9 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -28,9 +30,9 @@ public class Matrix_GUI extends javax.swing.JFrame {
      * Creates new form Matrix_GUI
      */
     
-    private static int debug=0;
-    private static int m;
-    private static int n;
+    private static int debug=5;
+    private static int m=-1;
+    private static int n=-1;
     private static double[][] a;
     
     public Matrix_GUI() {
@@ -67,6 +69,8 @@ public class Matrix_GUI extends javax.swing.JFrame {
         bttFile = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
         bttXuat = new javax.swing.JButton();
+        bttClear = new javax.swing.JButton();
+        bttReset = new javax.swing.JButton();
         lblBG = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -121,15 +125,15 @@ public class Matrix_GUI extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 550, 182));
         getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 676, 10));
 
-        bttGiai.setBackground(new java.awt.Color(204, 255, 255));
-        bttGiai.setForeground(new java.awt.Color(0, 153, 204));
+        bttGiai.setBackground(new java.awt.Color(0, 0, 255));
+        bttGiai.setForeground(new java.awt.Color(204, 255, 255));
         bttGiai.setText("Giải");
         bttGiai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bttGiaiMouseClicked(evt);
             }
         });
-        getContentPane().add(bttGiai, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 108, -1));
+        getContentPane().add(bttGiai, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 160, 108, -1));
         getContentPane().add(lblKQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 550, 40));
         getContentPane().add(lblShowSize, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 36, 16));
 
@@ -156,6 +160,26 @@ public class Matrix_GUI extends javax.swing.JFrame {
         });
         getContentPane().add(bttXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 400, 109, -1));
 
+        bttClear.setBackground(new java.awt.Color(204, 255, 255));
+        bttClear.setForeground(new java.awt.Color(0, 153, 204));
+        bttClear.setText("Clear");
+        bttClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bttClearMouseClicked(evt);
+            }
+        });
+        getContentPane().add(bttClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 108, -1));
+
+        bttReset.setBackground(new java.awt.Color(204, 255, 255));
+        bttReset.setForeground(new java.awt.Color(0, 153, 204));
+        bttReset.setText("Reset");
+        bttReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bttResetMouseClicked(evt);
+            }
+        });
+        getContentPane().add(bttReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 320, 108, -1));
+
         lblBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/src/Matrix_BG.jpg"))); // NOI18N
         getContentPane().add(lblBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-110, -10, 930, 530));
 
@@ -173,53 +197,68 @@ public class Matrix_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_bttNhapMouseClicked
 
     private void bttGiaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttGiaiMouseClicked
-        lblKQ.setText("  ");
-        
-        // Lấy text từ text area
-        String text = txtArMT.getText();
-
-        // Chia text thành các dòng
-        String[] lines = text.split("\n");
-
-        // Duyệt qua từng dòng
-         for (int i = 0; i < lines.length; i++) {
-            // Chia mỗi dòng thành các phần tử ma trận
-            String[] elements = lines[i].split("\s");
-
-            // Lưu trữ các phần tử ma trận vào mảng 2 chiều
-            a[i] = new double[elements.length];
-            for (int j = 0; j < elements.length; j++) {
-                a[i][j] = Double.parseDouble(elements[j]);
-            }
-        }
-        
-        if(debug==1)
+        if(m<1&&n<1)
         {
-            for(int i=0;i<m;i++)
-            {
+            JOptionPane.showMessageDialog(null, "Giá trị của m và n không hợp lệ\n", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            lblKQ.setText("  ");
+
+            // Lấy text từ text area
+            String text = txtArMT.getText();
+
+            // Chia text thành các dòng
+            String[] lines = text.split("\n");
+
+            // Duyệt qua từng dòng
+             for (int i = 0; i < lines.length; i++) {
+                // Chia mỗi dòng thành các phần tử ma trận
+                String[] numbers = StringUtils.split(lines[i]," "); // Chia chuỗi thành các số
+                
                 for(int j=0;j<n;j++)
                 {
-                    System.out.printf("%.2f ",a[i][j]);
+                    a[i][j]=Double.parseDouble(numbers[j]);
                 }
-                System.out.println();
+                
+                
             }
-        }
-        
-        Matrix.giai(m, n, a);
-        if(Matrix.nghiem(m, n, a)==1)
-        {
-            for (int i = 0; i < n-1; i++) {
-            // Tạo text
-            String nghiem = String.format("X%d = %.2f\n",i+1,a[i][n-1]);
-            if(i<m-1) nghiem=nghiem+";     ";
 
-            // Nối text mới vào text cũ
-            lblKQ.setText(lblKQ.getText() + nghiem);
-        }
+            if(debug==1)
+            {
+                for(int i=0;i<m;i++)
+                {
+                    for(int j=0;j<n;j++)
+                    {
+                        System.out.printf("%.2f ",a[i][j]);
+                    }
+                    System.out.println();
+                }
+            }
+
+            Matrix.giai(m, n, a);
+
+            if(Matrix.nghiem(m, n, a)==1)
+            {
+                String format;
+                int temp;
+                for (int i = 0; i < m; i++)
+                {
+                    temp=Matrix.format(a[i][n-1]);
+                    format="%."+temp;
+                    String nghiem = String.format("X%d = "+format+"f\n",i+1,a[i][n-1]);
+                    if(i<m-1) nghiem=nghiem+";     ";
+
+                    // Nối text mới vào text cũ
+                    lblKQ.setText(lblKQ.getText() + nghiem);
+                }
+            }
+
+            if(Matrix.nghiem(m, n, a)==2) lblKQ.setText("Hệ phương trình có vô số nghiệm!");
+            if(Matrix.nghiem(m, n, a)==3) lblKQ.setText("Hệ phương trình vô nghiệm!");
         }
         
-        if(Matrix.nghiem(m, n, a)==2) lblKQ.setText("Hệ phương trình có vô số nghiệm!");
-        if(Matrix.nghiem(m, n, a)==3) lblKQ.setText("Hệ phương trình vô nghiệm!");
+        
     }//GEN-LAST:event_bttGiaiMouseClicked
 
     private void bttFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttFileMouseClicked
@@ -264,7 +303,11 @@ public class Matrix_GUI extends javax.swing.JFrame {
                     for (int j=0;j<n;j++)
                     {
                         // Tạo text
-                        String nghiem = String.format(Locale.US,"%.2f",a[i][j]);
+                        String format;
+                        int temp=0;
+                        temp=Matrix.format(a[i][j]);
+                        format="%-13."+temp+"f";
+                        String nghiem = String.format(Locale.US,format,a[i][j]);
                         if(j<n) nghiem=nghiem+" ";
                         if(j==n-1) nghiem=nghiem+"\n";
 
@@ -280,37 +323,76 @@ public class Matrix_GUI extends javax.swing.JFrame {
 
     private void bttXuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttXuatMouseClicked
         PrintWriter writer = null;
+        String path = System.getProperty("user.home") + "\\Documents";
+        int soFile=0;
+        String tenFile="Matrix.txt";
+        File file = new File(path+"\\"+tenFile);
+        if(file.exists())
+        {
+            if(debug==5) System.out.printf("%b\n",file.exists());
+            soFile++;
+            while (true)
+            {
+                file=new File(path+"\\Matrix("+soFile+").txt");
+                if(file.exists())
+                {
+                    if(debug==5) System.out.printf("%b\n",file.exists());
+                    soFile++;
+                }
+                else
+                {
+                    tenFile="Matrix("+soFile+").txt";
+                    break;
+                }
+            }
+        }
+        
         try {
-            writer = new PrintWriter("Matrix.txt");
+            writer = new PrintWriter(path+"\\"+tenFile);
             // Ghi dữ liệu vào file
             writer.printf("%d %d\n",m,n);
             
             writer.printf("\nInit Matrix:\n");
-            for(int i=0;i<m;i++)
+            for (int i=0;i<m;i++)
             {
-                for(int j=0;j<n;j++)
+                for (int j=0;j<n;j++)
                 {
-                    writer.printf("%.2f ",Matrix.initMT[i][j]);
+                    // Tạo text
+                    String format;
+                    int temp=0;
+                    temp=Matrix.format(Matrix.initMT[i][j]);
+                    format="%-15."+temp+"f ";
+                    writer.printf(format,Matrix.initMT[i][j]);
                 }
                 writer.printf("\n");
             }
             
             writer.printf("\nLadder Matrix:\n");
-            for(int i=0;i<m;i++)
+            for (int i=0;i<m;i++)
             {
-                for(int j=0;j<n;j++)
+                for (int j=0;j<n;j++)
                 {
-                    writer.printf("%.2f ",Matrix.ladderMT[i][j]);
+                    // Tạo text
+                    String format;
+                    int temp=0;
+                    temp=Matrix.format(Matrix.ladderMT[i][j]);
+                    format="%-15."+temp+"f ";
+                    writer.printf(format,Matrix.ladderMT[i][j]);
                 }
                 writer.printf("\n");
             }
             
             writer.printf("\nShortened Ladder Matrix:\n");
-            for(int i=0;i<m;i++)
+            for (int i=0;i<m;i++)
             {
-                for(int j=0;j<n;j++)
+                for (int j=0;j<n;j++)
                 {
-                    writer.printf("%.2f ",a[i][j]);
+                    // Tạo text
+                    String format;
+                    int temp=0;
+                    temp=Matrix.format(a[i][j]);
+                    format="%-15."+temp+"f ";
+                    writer.printf(format,a[i][j]);
                 }
                 writer.printf("\n");
             }
@@ -318,8 +400,16 @@ public class Matrix_GUI extends javax.swing.JFrame {
             writer.printf("\nSolution:\n");
             if(Matrix.nghiem(m, n, a)==1)
             {
-                for(int i=0;i<m;i++) writer.printf("x%d = %.2f\n",i+1,a[i][n-1]);
-            }   if(Matrix.nghiem(m, n, a)==2) writer.printf("Hệ phương trình có vô số nghiệm!");
+                String format;
+                int temp;
+                for (int i = 0; i < n-1; i++)
+                {
+                    temp=Matrix.format(a[i][n-1]);
+                    format="%."+temp;
+                    writer.printf("X%d = "+format+"f\n",i+1,a[i][n-1]);
+                }
+            }
+            if(Matrix.nghiem(m, n, a)==2) writer.printf("Hệ phương trình có vô số nghiệm!");
             if(Matrix.nghiem(m, n, a)==3) writer.printf("Hệ phương trình vô nghiệm!");
             // Đóng file
             writer.close();
@@ -328,7 +418,23 @@ public class Matrix_GUI extends javax.swing.JFrame {
         } finally {
             writer.close();
         }
+        
+        JOptionPane.showMessageDialog(null, "Xuất file ("+tenFile+") thành công\n"+path, "Thông tin", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bttXuatMouseClicked
+
+    private void bttClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttClearMouseClicked
+        txtArMT.setText("");
+    }//GEN-LAST:event_bttClearMouseClicked
+
+    private void bttResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttResetMouseClicked
+        txtArMT.setText("");
+        txtM.setText("");
+        txtN.setText("");
+        lblKQ.setText("");
+        lblShowSize.setText("");
+        
+        m=n=-1;
+    }//GEN-LAST:event_bttResetMouseClicked
 
     /**
      * @param args the command line arguments
@@ -370,9 +476,11 @@ public class Matrix_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bttClear;
     private javax.swing.JButton bttFile;
     private javax.swing.JButton bttGiai;
     private javax.swing.JButton bttNhap;
+    private javax.swing.JButton bttReset;
     private javax.swing.JButton bttXuat;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

@@ -188,7 +188,7 @@ public class Matrix
         {
             if(x[i][n-1]==0)
             {
-                if(m-1-hang0>i) count++;
+                if(m-1-hang0>=i) count++;
             }
             else count++;
         }
@@ -201,5 +201,26 @@ public class Matrix
         if(count==m&&hang0==0) return 1;
         if(count<m) return 2;
         return 3;
+    }
+    
+    public static int format(double a)
+    {
+        double temp=a;
+        int format=0;
+        for(int i=1;i<=10;i++)
+        {
+            if(temp>=1||temp<=-1)
+            {
+                temp=Math.abs(temp%(int)temp);
+            }
+            if(debug==5) System.out.printf("%f\n",temp);
+            if(temp==0) break;
+            else
+            {
+                format=i;
+                temp=temp*10;
+            }
+        }
+        return format;
     }
 }
