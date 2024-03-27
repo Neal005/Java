@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Matrix
 {
     private static int hang0=0;
-    private static int debug=0;
+    private static int debug=5;
     private static double oo=Double.MAX_VALUE;
     public static double[][] initMT;
     public static double[][] ladderMT;
@@ -99,7 +99,7 @@ public class Matrix
             int hangTemp=-1;
             for(int j=i;j<m;j++)
             {
-                if(x[j][i]<min&&x[j][i]!=0)
+                if(Math.abs(x[j][i])<min&&x[j][i]!=0)
                 {
                     min=x[j][i];
                     hangTemp=j;
@@ -207,19 +207,31 @@ public class Matrix
     {
         double temp=a;
         int format=0;
+        boolean out=false;
         for(int i=1;i<=10;i++)
         {
-            if(temp>=1||temp<=-1)
-            {
-                temp=Math.abs(temp%(int)temp);
-            }
-            if(debug==5) System.out.printf("%f\n",temp);
-            if(temp==0) break;
+            temp=Math.abs(temp-(int)temp)*10;
+            if((int)temp!=0);
             else
             {
-                format=i;
-                temp=temp*10;
+                for(int j=i;j<=10;j++)
+                {
+                    temp=Math.abs(temp-(int)temp)*10;
+                    if((int)temp==0&&j==10)
+                    {
+                        if(debug==5) System.out.printf("DK=%b\n",(int)temp==0&&j==10);
+                        out=true;
+                        break;
+                    }
+                    if((int)temp!=0)
+                    {
+                        i=j;
+                        break;
+                    }
+                }
             }
+            if(out) break;
+            format=i;
         }
         return format;
     }

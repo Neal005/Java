@@ -30,7 +30,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
      * Creates new form Matrix_GUI
      */
     
-    private static int debug=5;
+    private static int debug=0;
     private static int m=-1;
     private static int n=-1;
     private static double[][] a;
@@ -419,7 +419,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
             writer.close();
         }
         
-        JOptionPane.showMessageDialog(null, "Xuất file ("+tenFile+") thành công\n"+path, "Thông tin", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Xuất file \""+tenFile+"\" thành công\n"+path, "Thông tin", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bttXuatMouseClicked
 
     private void bttClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttClearMouseClicked
