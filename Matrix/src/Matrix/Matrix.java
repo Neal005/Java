@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Matrix
 {
     private static int hang0=0;
-    private static int debug=5;
+    private static int debug=4;
     private static double oo=Double.MAX_VALUE;
     public static double[][] initMT;
     public static double[][] ladderMT;
@@ -64,6 +64,7 @@ public class Matrix
     
     public static void giai(int m,int n,double[][] x)
     {
+        hang0=0;
         initMT=new double[m][n];
         initMT=Matrix.copy(m, n, x);
         for(int i=0;i<m;i++)
