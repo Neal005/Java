@@ -67,15 +67,18 @@ public class Matrix
         hang0=0;
         initMT=new double[m][n];
         initMT=Matrix.copy(m, n, x);
-        for(int i=0;i<m;i++)
+        for(int i=0;i<n-1;i++)
         {
             sapXep(i,m,n,x);
             
-            if(x[i][i]!=0)
+            if(i<m&&i<n)
             {
-                chiaHang(x[i][i],i,n,x);
-                khuHangDuoi(m,n,i,x);
-                langDong(i,m,n,x);
+                if(x[i][i]!=0)
+                {
+                    chiaHang(x[i][i],i,n,x);
+                    khuHangDuoi(m,n,i,x);
+                    langDong(i,m,n,x);
+                }
             }
             
             if(debug==2)
@@ -85,12 +88,20 @@ public class Matrix
             }
         }
         
+        if(m>n)
+        {
+            for(int i=n-1;i<m-hang0;i++)
+            {
+                langDong(i,m,n,x);
+            }
+        }
+        
         ladderMT=new double[m][n];
         ladderMT = Matrix.copy(m, n, x);
         
-        for(int i=m-1;i>=0;i--)
+        for(int i=n-1;i>0;i--)
         {
-            khuHangTren(m,n,i,x);
+            khuHangTren(m,n,i-1,x);
         }
     }
     
@@ -120,6 +131,7 @@ public class Matrix
     public static void khuHangDuoi(int m,int n,int cot,double[][] x)
     {
         double temp;
+        if(debug==1) System.out.printf("m=%d n=%d cot=%d\n",m,n,cot);
         double[] a=new double[n];
         for(int i=cot+1;i<m;i++)
         {
@@ -143,7 +155,7 @@ public class Matrix
     public static void langDong(int cot,int m,int n,double[][] x)
     {
         int count;
-        for(int i=cot;i<m-hang0;i++)
+        for(int i=0;i<m-hang0;i++)
         {
             count=0;
             for(int j=0;j<n-1;j++)
@@ -163,14 +175,18 @@ public class Matrix
     {
         double temp;
         double[] a=new double[n];
+        if(debug==1) System.out.printf("KHT: m=%d n=%d cot=%d\n",m,n,cot);
         for(int i=cot-1;i>=0;i--)
         {
             temp=x[i][cot];
             if(debug==1) System.out.printf("%.2f\n", temp);
             for(int j=0;j<n;j++)
             {
-                a[j]=x[cot][j]*temp;
-                if(debug==1) System.out.printf("%.2f ",a[j]);
+                if(cot<m)
+                {
+                    a[j]=x[cot][j]*temp;
+                    if(debug==1) System.out.printf("%.2f ",a[j]);
+                }
             }
             if(debug==1) System.out.printf("\n");
             for(int j=0;j<n;j++)
@@ -191,7 +207,11 @@ public class Matrix
             {
                 if(m-1-hang0>=i) count++;
             }
-            else count++;
+            else
+            {
+                if(m-1-hang0>=i) count++;
+                else return 3;
+            }
         }
         
         if(debug==4)
@@ -199,8 +219,8 @@ public class Matrix
             System.out.printf("count: %d\n",count);
             System.out.printf("hang 0: %d\n",hang0);
         }
-        if(count==m&&hang0==0) return 1;
-        if(count<m) return 2;
+        if(count==(n-1)) return 1;
+        if(count<(n-1)) return 2;
         return 3;
     }
     
@@ -235,5 +255,19 @@ public class Matrix
             format=i;
         }
         return format;
+    }
+    public static int countDigit(double a)
+    {
+        int count=0;
+        double temp=Math.abs(a);
+        while(temp>=1)
+        {
+            count++;
+            temp/=10;
+            if(debug==6) System.out.printf("%f\n",temp);
+        }
+        if(debug==6) System.out.printf("count %.2f = %d\n",a,count);
+        if(count>=10) return 0;
+        return count;
     }
 }

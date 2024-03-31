@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import static java.nio.file.Files.lines;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,12 +34,14 @@ public class Matrix_GUI extends javax.swing.JFrame {
     private static int debug=0;
     private static int m=-1;
     private static int n=-1;
+    private static boolean giai;
     private static double[][] a;
     
     public Matrix_GUI() {
         initComponents();
         
         setIconImage();
+        transparentSolution();
     }
 
     /**
@@ -64,9 +67,9 @@ public class Matrix_GUI extends javax.swing.JFrame {
         txtArMT = new javax.swing.JTextArea();
         jSeparator3 = new javax.swing.JSeparator();
         bttGiai = new javax.swing.JButton();
-        lblKQ = new javax.swing.JLabel();
         lblShowSize = new javax.swing.JLabel();
         bttFile = new javax.swing.JButton();
+        txtKQ = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         bttXuat = new javax.swing.JButton();
         bttClear = new javax.swing.JButton();
@@ -134,7 +137,6 @@ public class Matrix_GUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(bttGiai, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 160, 108, -1));
-        getContentPane().add(lblKQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 550, 40));
         getContentPane().add(lblShowSize, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 36, 16));
 
         bttFile.setBackground(new java.awt.Color(204, 255, 255));
@@ -146,6 +148,11 @@ public class Matrix_GUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(bttFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 70, 210, -1));
+
+        txtKQ.setEditable(false);
+        txtKQ.setForeground(new java.awt.Color(51, 0, 51));
+        txtKQ.setBorder(null);
+        getContentPane().add(txtKQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 550, 50));
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 60, 17, 50));
@@ -197,65 +204,69 @@ public class Matrix_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_bttNhapMouseClicked
 
     private void bttGiaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttGiaiMouseClicked
+        giai=true;
         if(m<1&&n<1)
         {
             JOptionPane.showMessageDialog(null, "Giá trị của m và n không hợp lệ\n", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
         }
         else
         {
-            lblKQ.setText("  ");
-
-            // Lấy text từ text area
-            String text = txtArMT.getText();
-
-            // Chia text thành các dòng
-            String[] lines = text.split("\n");
-
-            // Duyệt qua từng dòng
-             for (int i = 0; i < lines.length; i++) {
-                // Chia mỗi dòng thành các phần tử ma trận
-                String[] numbers = StringUtils.split(lines[i]," "); // Chia chuỗi thành các số
-                
-                for(int j=0;j<n;j++)
-                {
-                    a[i][j]=Double.parseDouble(numbers[j]);
-                }
-                
-                
-            }
-
-            if(debug==1)
+            try
             {
-                for(int i=0;i<m;i++)
-                {
+                txtKQ.setText("  ");
+
+                // Lấy text từ text area
+                String text = txtArMT.getText();
+
+                // Chia text thành các dòng
+                String[] lines = text.split("\n");
+
+                // Duyệt qua từng dòng
+                 for (int i = 0; i < lines.length; i++) {
+                    // Chia mỗi dòng thành các phần tử ma trận
+                    String[] numbers = StringUtils.split(lines[i]," "); // Chia chuỗi thành các số
+
                     for(int j=0;j<n;j++)
                     {
-                        System.out.printf("%.2f ",a[i][j]);
+                        a[i][j]=Double.parseDouble(numbers[j]);
                     }
-                    System.out.println();
                 }
             }
-
-            Matrix.giai(m, n, a);
-
-            if(Matrix.nghiem(m, n, a)==1)
+            catch (ArrayIndexOutOfBoundsException e)
             {
-                String format;
-                int temp;
-                for (int i = 0; i < m; i++)
-                {
-                    temp=Matrix.format(a[i][n-1]);
-                    format="%."+temp;
-                    String nghiem = String.format("X%d = "+format+"f\n",i+1,a[i][n-1]);
-                    if(i<m-1) nghiem=nghiem+";     ";
-
-                    // Nối text mới vào text cũ
-                    lblKQ.setText(lblKQ.getText() + nghiem);
-                }
+                giai=false;
+                JOptionPane.showMessageDialog(null, "Ma trận không khớp với giá trị m và n", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
+            catch (NumberFormatException e)
+            {
+                giai=false;
+                JOptionPane.showMessageDialog(null, "Ma trận sai định dạng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            if(giai)
+            {
+                Matrix.giai(m, n, a);
 
-            if(Matrix.nghiem(m, n, a)==2) lblKQ.setText("Hệ phương trình có vô số nghiệm!");
-            if(Matrix.nghiem(m, n, a)==3) lblKQ.setText("Hệ phương trình vô nghiệm!");
+                int count=0;
+                if(Matrix.nghiem(m, n, a)==1)
+                {
+                    String format;
+                    int temp;
+                    for (int i = 0; i < n-1; i++)
+                    {
+                        temp=Matrix.format(a[i][n-1]);
+                        format="%."+temp;
+                        String nghiem = String.format("X%d = "+format+"f\n",i+1,a[i][n-1]);
+                        if(i<n-2) nghiem=nghiem+";     ";
+
+                        // Nối text mới vào text cũ
+                        txtKQ.setText(txtKQ.getText() + nghiem);
+                    }
+                }
+
+                if(Matrix.nghiem(m, n, a)==2) txtKQ.setText("Hệ phương trình có vô số nghiệm!");
+                if(Matrix.nghiem(m, n, a)==3) txtKQ.setText("Hệ phương trình vô nghiệm!");
+            }
         }
         
         
@@ -352,15 +363,23 @@ public class Matrix_GUI extends javax.swing.JFrame {
             // Ghi dữ liệu vào file
             writer.printf("%d %d\n",m,n);
             
+            String format;
+            int temp=0;
+            int digitNum=0;
+            
             writer.printf("\nInit Matrix:\n");
             for (int i=0;i<m;i++)
             {
                 for (int j=0;j<n;j++)
                 {
                     // Tạo text
-                    String format;
-                    int temp=0;
                     temp=Matrix.format(Matrix.initMT[i][j]);
+                    digitNum=Matrix.countDigit(Matrix.initMT[i][j]);
+                    
+                    if(digitNum>1&&temp>=10)
+                    {
+                        temp-=(Matrix.countDigit(Matrix.initMT[i][j])-1);
+                    }
                     format="%-15."+temp+"f ";
                     writer.printf(format,Matrix.initMT[i][j]);
                 }
@@ -373,9 +392,13 @@ public class Matrix_GUI extends javax.swing.JFrame {
                 for (int j=0;j<n;j++)
                 {
                     // Tạo text
-                    String format;
-                    int temp=0;
                     temp=Matrix.format(Matrix.ladderMT[i][j]);
+                    digitNum=Matrix.countDigit(Matrix.ladderMT[i][j]);
+                    
+                    if(digitNum>1&&temp>=10)
+                    {
+                        temp-=(Matrix.countDigit(Matrix.ladderMT[i][j])-1);
+                    }
                     format="%-15."+temp+"f ";
                     writer.printf(format,Matrix.ladderMT[i][j]);
                 }
@@ -388,9 +411,13 @@ public class Matrix_GUI extends javax.swing.JFrame {
                 for (int j=0;j<n;j++)
                 {
                     // Tạo text
-                    String format;
-                    int temp=0;
                     temp=Matrix.format(a[i][j]);
+                    digitNum=Matrix.countDigit(a[i][j]);
+                    
+                    if(digitNum>1&&temp>=10)
+                    {
+                        temp-=(Matrix.countDigit(a[i][j])-1);
+                    }
                     format="%-15."+temp+"f ";
                     writer.printf(format,a[i][j]);
                 }
@@ -400,8 +427,6 @@ public class Matrix_GUI extends javax.swing.JFrame {
             writer.printf("\nSolution:\n");
             if(Matrix.nghiem(m, n, a)==1)
             {
-                String format;
-                int temp;
                 for (int i = 0; i < n-1; i++)
                 {
                     temp=Matrix.format(a[i][n-1]);
@@ -430,7 +455,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
         txtArMT.setText("");
         txtM.setText("");
         txtN.setText("");
-        lblKQ.setText("");
+        txtKQ.setText("");
         lblShowSize.setText("");
         
         m=n=-1;
@@ -474,6 +499,11 @@ public class Matrix_GUI extends javax.swing.JFrame {
     private void setIconImage() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
     }
+    
+     private void transparentSolution()
+    {
+        txtKQ.setBackground(new java.awt.Color(0,0,0,1));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttClear;
@@ -489,13 +519,13 @@ public class Matrix_GUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JLabel lblBG;
     private javax.swing.JLabel lblHeader;
-    private javax.swing.JLabel lblKQ;
     private javax.swing.JLabel lblM;
     private javax.swing.JLabel lblN;
     private javax.swing.JLabel lblNhapMT;
     private javax.swing.JLabel lblNhapSize;
     private javax.swing.JLabel lblShowSize;
     private javax.swing.JTextArea txtArMT;
+    private javax.swing.JTextField txtKQ;
     private javax.swing.JTextField txtM;
     private javax.swing.JTextField txtN;
     // End of variables declaration//GEN-END:variables
