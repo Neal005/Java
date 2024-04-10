@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Matrix
 {
     private static int hang0=0;
-    private static int debug=4;
+    private static int debug=6;
     private static double oo=Double.MAX_VALUE;
     public static double[][] initMT;
     public static double[][] ladderMT;
@@ -70,14 +70,33 @@ public class Matrix
         for(int i=0;i<n-1;i++)
         {
             sapXep(i,m,n,x);
-            
+            if(debug==6)
+                    {
+                        System.out.printf("Sau khi sap xep\n");
+                        xuat(m,n,x);
+                    }
             if(i<m&&i<n)
             {
                 if(x[i][i]!=0)
                 {
                     chiaHang(x[i][i],i,n,x);
+                    if(debug==6)
+                    {
+                        System.out.printf("Sau khi Chia hang %d\n",i+1);
+                        xuat(m,n,x);
+                    }
                     khuHangDuoi(m,n,i,x);
+                    if(debug==6)
+                    {
+                        System.out.printf("Sau khi khu hang duoi %d\n",i+1);
+                        xuat(m,n,x);
+                    }
                     langDong(i,m,n,x);
+                    if(debug==6)
+                    {
+                        System.out.printf("Sau khi lang dong %d\n",i+1);
+                        xuat(m,n,x);
+                    }
                 }
             }
             
@@ -102,6 +121,11 @@ public class Matrix
         for(int i=n-1;i>0;i--)
         {
             khuHangTren(m,n,i-1,x);
+            if(debug==6)
+                    {
+                        System.out.printf("Sau khi khu hang tren %d\n",i+1);
+                        xuat(m,n,x);
+                    }
         }
     }
     
@@ -120,11 +144,16 @@ public class Matrix
             if(hangTemp>-1) swap(hangTemp,i,n,x);
     }
     
-    public static void chiaHang(double dividesor,int hang,int n,double[][] x)
+    public static void chiaHang(double divisor,int hang,int n,double[][] x)
     {
+        if(debug==7)
+        {
+            System.out.printf("divisor: %.2f Hang: %d n: %d\n",divisor,hang,n);
+        }
         for(int i=0;i<n;i++)
         {
-            if(x[hang][i]!=0) x[hang][i]/=dividesor;
+            if(debug==7) System.out.printf("divisored: %.2f\n",x[hang][i]);
+            if(x[hang][i]!=0) x[hang][i]/=divisor;
         }
     }
     
@@ -192,7 +221,7 @@ public class Matrix
             for(int j=0;j<n;j++)
             {
                 if(debug==1) System.out.printf("%.2f ",x[i][j]);
-                if(x[i][j]!=0) x[i][j]-=a[j];
+                x[i][j]-=a[j];
             }
             if(debug==1) System.out.printf("\n");
         }
