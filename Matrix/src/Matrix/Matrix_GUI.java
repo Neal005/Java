@@ -137,7 +137,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(bttGiai, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 160, 108, -1));
-        getContentPane().add(lblShowSize, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 36, 16));
+        getContentPane().add(lblShowSize, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 470, 16));
 
         bttFile.setBackground(new java.awt.Color(204, 255, 255));
         bttFile.setForeground(new java.awt.Color(0, 153, 204));
