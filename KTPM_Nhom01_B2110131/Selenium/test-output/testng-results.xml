@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-04-15T15:34:16 ICT" name="Default suite" finished-at="2024-04-15T15:34:31 ICT" duration-ms="14734">
+    <groups>
+    </groups>
+    <test started-at="2024-04-15T15:34:16 ICT" name="Default test" finished-at="2024-04-15T15:34:31 ICT" duration-ms="14734">
+      <class name="New.TestElearning">
+        <test-method signature="DemoProject(java.lang.String,java.lang.String)[pri:0, instance:New.TestElearning@4c12331b]" started-at="2024-04-15T15:34:17 ICT" name="DemoProject" data-provider="testdata" finished-at="2024-04-15T15:34:31 ICT" duration-ms="14226" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[B2110131]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[B&6eNhUJ]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- DemoProject -->
+        <test-method is-config="true" signature="ProgramTermination()[pri:0, instance:New.TestElearning@4c12331b]" started-at="2024-04-15T15:34:31 ICT" name="ProgramTermination" finished-at="2024-04-15T15:34:31 ICT" duration-ms="133" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ProgramTermination -->
+      </class> <!-- New.TestElearning -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
