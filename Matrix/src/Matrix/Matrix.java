@@ -1,6 +1,7 @@
 package Matrix;
 
 import java.util.Scanner;
+import javax.swing.JTextArea;
 
 public class Matrix
 {
@@ -62,14 +63,31 @@ public class Matrix
         }
     }
     
-    public static void giai(int m,int n,double[][] x)
+    public static void terminal(int m, int n, double[][] x, JTextArea txtArTer)
     {
+        for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    txtArTer.setText(txtArTer.getText()+(x[i][j])+"\t");
+                }
+                txtArTer.setText(txtArTer.getText()+"\n");
+            }
+    }
+    
+    public static void giai(int m,int n,double[][] x, JTextArea txtArTer)
+    {
+        txtArTer.setText("");
+        txtArTer.setText("\t               **Process**\n");
+        txtArTer.setText(txtArTer.getText()+"################################################\n");
         hang0=0;
         initMT=new double[m][n];
         initMT=Matrix.copy(m, n, x);
+        txtArTer.setText(txtArTer.getText()+"*Khu hang duoi:\n");
         for(int i=0;i<n-1;i++)
         {
             sapXep(i,m,n,x);
+            txtArTer.setText(txtArTer.getText()+"- Sap xep:\n");
+            terminal(m,n,x,txtArTer);
+            
             if(debug==6)
                     {
                         System.out.printf("Sau khi sap xep\n");
@@ -79,13 +97,15 @@ public class Matrix
             {
                 if(x[i][i]!=0)
                 {
+                    txtArTer.setText(txtArTer.getText()+"- Rut gon hang "+(i+1)+":\n");
                     chiaHang(x[i][i],i,n,x);
+                    terminal(m,n,x,txtArTer);
                     if(debug==6)
                     {
                         System.out.printf("Sau khi Chia hang %d\n",i+1);
                         xuat(m,n,x);
                     }
-                    khuHangDuoi(m,n,i,x);
+                    khuHangDuoi(m,n,i,x,txtArTer);
                     if(debug==6)
                     {
                         System.out.printf("Sau khi khu hang duoi %d\n",i+1);
@@ -118,9 +138,11 @@ public class Matrix
         ladderMT=new double[m][n];
         ladderMT = Matrix.copy(m, n, x);
         
+        txtArTer.setText(txtArTer.getText()+"################################################\n");
+        txtArTer.setText(txtArTer.getText()+"*Khu hang tren:\n");
         for(int i=n-1;i>0;i--)
         {
-            khuHangTren(m,n,i-1,x);
+            khuHangTren(m,n,i-1,x,txtArTer);
             if(debug==6)
                     {
                         System.out.printf("Sau khi khu hang tren %d\n",i+1);
@@ -157,13 +179,14 @@ public class Matrix
         }
     }
     
-    public static void khuHangDuoi(int m,int n,int cot,double[][] x)
+    public static void khuHangDuoi(int m,int n,int cot,double[][] x, JTextArea txtArTer)
     {
         double temp;
         if(debug==1) System.out.printf("m=%d n=%d cot=%d\n",m,n,cot);
         double[] a=new double[n];
         for(int i=cot+1;i<m;i++)
         {
+            txtArTer.setText(txtArTer.getText()+"+ Khu hang "+(i+1)+":\n");
             temp=x[i][cot];
             if(debug==1) System.out.printf("%.2f\n", temp);
             for(int j=0;j<n;j++)
@@ -178,6 +201,7 @@ public class Matrix
                 if(x[i][j]!=0) x[i][j]-=a[j];
             }
             if(debug==1) System.out.printf("\n");
+            terminal(m,n,x,txtArTer);
         }
     }
     
@@ -200,13 +224,14 @@ public class Matrix
         }
     }
     
-    public static void khuHangTren(int m,int n,int cot,double[][] x)
+    public static void khuHangTren(int m,int n,int cot,double[][] x, JTextArea txtArTer)
     {
         double temp;
         double[] a=new double[n];
         if(debug==1) System.out.printf("KHT: m=%d n=%d cot=%d\n",m,n,cot);
         for(int i=cot-1;i>=0;i--)
         {
+            txtArTer.setText(txtArTer.getText()+"+ Khu hang "+(i+1)+":\n");
             temp=x[i][cot];
             if(debug==1) System.out.printf("%.2f\n", temp);
             for(int j=0;j<n;j++)
@@ -223,6 +248,7 @@ public class Matrix
                 if(debug==1) System.out.printf("%.2f ",x[i][j]);
                 x[i][j]-=a[j];
             }
+            terminal(m,n,x,txtArTer);
             if(debug==1) System.out.printf("\n");
         }
     }

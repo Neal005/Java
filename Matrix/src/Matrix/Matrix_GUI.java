@@ -42,6 +42,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
         
         setIconImage();
         transparentSolution();
+        txtArTer.setText("\t               **Process**\n");
     }
 
     /**
@@ -63,6 +64,8 @@ public class Matrix_GUI extends javax.swing.JFrame {
         bttNhap = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         lblNhapMT = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtArTer = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArMT = new javax.swing.JTextArea();
         jSeparator3 = new javax.swing.JSeparator();
@@ -119,6 +122,18 @@ public class Matrix_GUI extends javax.swing.JFrame {
         lblNhapMT.setForeground(new java.awt.Color(0, 153, 255));
         lblNhapMT.setText("Nhập ma trận:");
         getContentPane().add(lblNhapMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setForeground(new java.awt.Color(102, 255, 0));
+
+        txtArTer.setEditable(false);
+        txtArTer.setBackground(new java.awt.Color(0, 0, 0));
+        txtArTer.setColumns(20);
+        txtArTer.setForeground(new java.awt.Color(0, 255, 51));
+        txtArTer.setRows(5);
+        jScrollPane2.setViewportView(txtArTer);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 350, 510));
 
         txtArMT.setBackground(new java.awt.Color(255, 255, 204));
         txtArMT.setColumns(20);
@@ -188,9 +203,9 @@ public class Matrix_GUI extends javax.swing.JFrame {
         getContentPane().add(bttReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 320, 108, -1));
 
         lblBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/src/Matrix_BG.jpg"))); // NOI18N
-        getContentPane().add(lblBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-110, -10, 930, 530));
+        getContentPane().add(lblBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-110, -10, 930, 550));
 
-        setSize(new java.awt.Dimension(817, 534));
+        setSize(new java.awt.Dimension(1157, 544));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -245,7 +260,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
             
             if(giai)
             {
-                Matrix.giai(m, n, a);
+                Matrix.giai(m, n, a, txtArTer);
 
                 int count=0;
                 if(Matrix.nghiem(m, n, a)==1)
@@ -513,6 +528,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
     private javax.swing.JButton bttReset;
     private javax.swing.JButton bttXuat;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -525,6 +541,7 @@ public class Matrix_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblNhapSize;
     private javax.swing.JLabel lblShowSize;
     private javax.swing.JTextArea txtArMT;
+    private javax.swing.JTextArea txtArTer;
     private javax.swing.JTextField txtKQ;
     private javax.swing.JTextField txtM;
     private javax.swing.JTextField txtN;

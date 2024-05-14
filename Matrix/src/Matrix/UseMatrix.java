@@ -14,7 +14,7 @@ public class UseMatrix
         n = scanner.nextInt();
         System.out.println("Nhap ma tran a: ");
         a = Matrix.nhap(m, n, scanner);
-        Matrix.giai(m, n, a);
+        //Matrix.giai(m, n, a);
         System.out.println("Ma tran a: ");
         Matrix.xuat(m, n, a);
         int nghiem=Matrix.nghiem(m, n, a);
