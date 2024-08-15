@@ -1,21 +1,18 @@
 package lab1;
 
-import java.sql.Array;
-import java.util.ArrayList;
-
 public class SetTheory
 {
-	private int debug = 0;
+	private static int debug = 0;
 
-	public static boolean part(int x, ArrayList<Integer> A)
+	public static boolean part(int x, Set A)
 	{
 		if(A.contains(x)) return true;
 		return false;
 	}
 	
-	public static ArrayList intersection(ArrayList<Integer> A, ArrayList<Integer> B)
+	public static Set intersection(Set A, Set B)
 	{
-		ArrayList<Integer> C = new ArrayList<>();
+		Set C = new Set();
 		for(int i=0;i<A.size();i++)
 		{
 			for(int j=0;j<B.size();j++)
@@ -30,9 +27,9 @@ public class SetTheory
 		return C;
 	}
 	
-	public static ArrayList union(ArrayList<Integer> A, ArrayList<Integer> B)
+	public static Set union(Set A, Set B)
 	{
-		ArrayList<Integer> C = new ArrayList<>();
+		Set C = new Set();
 		for(int i=0;i<A.size();i++) C.add(A.get(i));
 		for(int i=0;i<B.size();i++)
 		{
@@ -42,10 +39,10 @@ public class SetTheory
 		return C;
 	}
 	
-	public static ArrayList difference(ArrayList<Integer> A, ArrayList<Integer> B)
+	public static Set difference(Set A, Set B)
 	{
-		ArrayList<Integer> C = new ArrayList<>();
-		ArrayList<Integer> temp = new ArrayList<>();
+		Set C = new Set();
+		Set temp = new Set();
 		temp = intersection(A, B);
 		for(int i=0;i<A.size();i++)
 		{
@@ -61,34 +58,67 @@ public class SetTheory
 		return C;
 	}
 	
-	public static DirectSet descartes(ArrayList<Integer> A, ArrayList<Integer> B)
+	public static DirectSet descartes(Set A, Set B)
 	{
 		DirectSet S = new DirectSet();
 		
 		for(int i=0;i<A.size();i++)
-		{
 			for(int j=0;j<B.size();j++)
-			{
-				S.list[0][S.couple]=A.get(i);
-				S.list[1][S.couple]=B.get(j);
-				S.couple++;
-			}
-		}
-		
-		for(int i=0;i<B.size();i++)
-		{
-			for(int j=0;j<A.size();j++)
-			{
-				if(!DirectSet.contain(B.get(i), A.get(j), S))
-				{
-					S.list[0][S.couple]=B.get(i);
-					S.list[1][S.couple]=A.get(j);
-					S.couple++;					
-				}
-			}
-		}
+				S.add(A.get(i), B.get(j));					
 		
 		return S;
 	}
 	
+	public static boolean reflexivity(Set A, DirectSet R)
+	{
+		for(int i=0;i<R.size();i++)
+		{
+			if(!A.contains(R.getA(i))||!A.contains(R.getB(i))) return false;
+		}
+			
+		int count = 0;
+		for(int i=0;i<A.size();i++)
+		{
+			if(R.contains(A.get(i), A.get(i))) count++;
+		}
+		
+		if(count==A.size()) return true;
+		return false;
+	}
+	
+	public static boolean symmetry(Set A, DirectSet R)
+	{
+		for(int i=0;i<R.size();i++)
+		{
+			if(!A.contains(R.getA(i))||!A.contains(R.getB(i))) return false;
+		}
+		
+		for(int i=0;i<R.size();i++)
+		{
+			if(R.getA(i)!=R.getB(i)&&!R.contains(R.getB(i), R.getA(i))) return false;
+		}
+		return true;
+	}
+	
+	public static boolean transitivity(Set A, DirectSet R)
+	{
+		for(int i=0;i<R.size();i++)
+		{
+			if(!A.contains(R.getA(i))||!A.contains(R.getB(i))) return false;
+		}
+		
+		for(int i=0;i<R.size();i++)
+		{
+			if(debug==1) System.out.println("Turn: "+(i+1));
+			for(int j=0;j<R.size();j++)
+			{
+				if(debug==1) System.out.println("couple: "+(j+1));;
+				if(R.getA(j)==R.getB(i)&&i!=j)
+					if(!R.contains(R.getA(i), R.getB(j))) return false;
+			}
+			
+		}
+		
+		return true;
+	}
 }

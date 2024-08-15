@@ -1,38 +1,93 @@
 package lab1;
 
+import java.util.ArrayList;
+
 public class DirectSet
 {
-	public int couple;
-	public int [][] list;
+	private int couple;
+	private ArrayList<Integer> a;
+	private ArrayList<Integer> b;
 	
 	DirectSet()
 	{
 		couple = 0;
-		list = new int[2][100];
+		a = new ArrayList<>();
+		b = new ArrayList<>();
 	}
 	
-	DirectSet(int couple, int[][] list)
+	public int getA(int x)
 	{
-		this.couple = couple;
-		this.list = new int[10][10];
-		this.list=list.clone();
+		return a.get(x);
 	}
 	
-	public static boolean contain(int a, int b, DirectSet S)
+	public int getB(int x)
 	{
-		for(int i=0;i<S.couple;i++)
-			if(a==S.list[0][i]&&b==S.list[1][i]) return true;
+		return b.get(x);
+	}
+	
+	public int size()
+	{
+		return couple;
+	}
+	
+	public boolean contains(int a, int b)
+	{
+		for(int i=0;i<couple;i++)
+			if(a==this.a.get(i)&&b==this.b.get(i)) return true;
 		return false;
 	}
 	
-	public static void print(DirectSet S)
+	public void print()
 	{
 		System.out.print("{");
-		for(int i=0;i<S.couple;i++)
+		for(int i=0;i<couple;i++)
 		{
-			System.out.printf("(%d,%d)",S.list[0][i],S.list[1][i]);
-			if(i<S.couple-1) System.out.print(";");
+			System.out.printf("(%d,%d)",a.get(i),b.get(i));
+			if(i<couple-1) System.out.print(";");
 		}
 		System.out.print("}\n");
+	}
+	
+	public String printString()
+	{
+		String text = new String();
+		text="{";
+		for(int i=0;i<couple;i++)
+		{
+			text+="("+a.get(i).toString()+", "+b.get(i).toString()+")";
+			if(i<couple-1) text+=";";
+		}
+		text+="}";
+		return text;
+	}
+	
+	public DirectSet clone()
+	{
+		DirectSet temp = new DirectSet();
+		temp.couple = couple;
+		temp.a=(ArrayList<Integer>) a.clone();
+		temp.b=(ArrayList<Integer>) b.clone();
+		return temp;
+	}
+	
+	
+	public void add(int a, int b)
+	{
+		if(!contains(a, b))
+		{
+			this.a.add(a);
+			this.b.add(b);
+			couple++;			
+		}
+	}
+	
+	public void remove(int x)
+	{
+		if(x<couple)
+		{
+			a.remove(x);
+			b.remove(x);
+			couple--;
+		}
 	}
 }
