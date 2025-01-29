@@ -2,12 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-18"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="f:/Git/Java/TestNG/features/org.testng.eclipse.maven.feature_6.11.0.201703011520.jar"/>
-	<classpathentry kind="lib" path="f:/Git/Java/TestNG/features/org.testng.eclipse_6.11.0.201703011520.jar"/>
-	<classpathentry kind="lib" path="f:/Git/Java/TestNG/plugins/org.testng.eclipse.maven_6.11.0.201703011520.jar"/>
-	<classpathentry kind="lib" path="f:/Git/Java/TestNG/plugins/org.testng.eclipse_6.11.0.201703011520.jar"/>
-	<classpathentry kind="lib" path="f:/Git/Java/TestNG/artifacts.jar"/>
-	<classpathentry kind="lib" path="f:/Git/Java/TestNG/content.jar"/>
+	<classpathentry kind="lib" path="f:/Git/Java/Lib/TestNG/testng-7.10.2.jar"/>
 	<classpathentry kind="lib" path="f:/Source code/Java/Install Selenium/selenium-server-standalone-4.0.0-alpha-2.jar"/>
 	<classpathentry kind="lib" path="f:/Source code/Java/Install Selenium/selenium-server-4.0.0-alpha-2/selenium-server-4.0.0-alpha-2.jar"/>
 	<classpathentry kind="lib" path="f:/Source code/Java/Install Selenium/selenium-server-4.0.0-alpha-2/selenium-server-4.0.0-alpha-2-sources.jar"/>
